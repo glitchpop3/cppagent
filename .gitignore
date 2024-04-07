@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Bazel dirs
+bazel-bin
+bazel-out
+bazel-cppagent
+bazel-testlogs
