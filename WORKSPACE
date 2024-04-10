@@ -1,5 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
 
 http_archive(
     name = "io_opentelemetry_cpp",
@@ -16,11 +16,11 @@ http_archive(
   sha256 = "f7be3474d42aae265405a592bb7da8e171919d74c16f082a5457840f06054728",
 )
 
-http_archive(
-  name = "drogon-1.9.3",
-  strip_prefix = "drogon-1.9.3",
-  url = "https://github.com/drogonframework/drogon/archive/refs/tags/v1.9.3.tar.gz",
-  sha256 = "fb4ef351b3e4c06ed850cfbbf50c571502decb1738fb7d62a9d7d70077c9fc23",
+new_git_repository(
+  name = "drogon",
+  remote = "https://github.com/drogonframework/drogon.git",
+  recursive_init_submodules = True,
+  tag = "v1.9.3",
   build_file_content = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
@@ -31,16 +31,11 @@ cc_library(
     ]),
     strip_include_prefix = "lib",
     visibility = [
-        "@//external:__pkg__",
+        "//visibility:public",
     ],
 )
         """,
     )
-
-bind(
-    name = "drogon",
-    actual = "@drogon-1.9.3//:drogon",
-) 
 
 
 # Load OpenTelemetry dependencies after load.
