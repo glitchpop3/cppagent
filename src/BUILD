@@ -4,5 +4,6 @@ cc_binary(
     deps = [
       "@io_opentelemetry_cpp//api",
       "@io_opentelemetry_cpp//sdk/src/trace",
+      "//external:drogon",
    ],
 )

@@ -16,6 +16,33 @@ http_archive(
   sha256 = "f7be3474d42aae265405a592bb7da8e171919d74c16f082a5457840f06054728",
 )
 
+http_archive(
+  name = "drogon-1.9.3",
+  strip_prefix = "drogon-1.9.3",
+  url = "https://github.com/drogonframework/drogon/archive/refs/tags/v1.9.3.tar.gz",
+  sha256 = "fb4ef351b3e4c06ed850cfbbf50c571502decb1738fb7d62a9d7d70077c9fc23",
+  build_file_content = """
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "drogon",
+    hdrs = glob([
+      "lib/**/*.h",
+    ]),
+    strip_include_prefix = "lib",
+    visibility = [
+        "@//external:__pkg__",
+    ],
+)
+        """,
+    )
+
+bind(
+    name = "drogon",
+    actual = "@drogon-1.9.3//:drogon",
+) 
+
+
 # Load OpenTelemetry dependencies after load.
 load("@io_opentelemetry_cpp//bazel:repository.bzl", "opentelemetry_cpp_deps")
 
